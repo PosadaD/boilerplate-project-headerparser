@@ -19,10 +19,31 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+
+app.set('trust proxy', true);
+
+
+
+
+
 // your first API endpoint...
-app.get('/api/hello', function (req, res) {
-  res.json({ greeting: 'hello API' });
+app.get('/api/whoami', function (req, res) {
+  req.ipaddress = req.ip;
+  req.software = req.headers['user-agent']
+  req.language = req.headers['accept-language'];
+  res.json({ 
+    ipaddress: `${req.ipaddress}`,
+    language: `${req.language}`,
+    software: `${req.software}`
+  });
 });
+
+
+
+
+
+
+
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
